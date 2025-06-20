@@ -22,7 +22,7 @@ jobs:
         run: npm install  # Instala las dependencias del proyecto React
 
       - name: Build React app
-        run: npm run build --loglevel verbose
+        run: npm run build --loglevel verbose  # Ejecuta el build de app React con logs detallados
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2  # Configura Docker Buildx para el build
@@ -32,10 +32,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}  # Usa tu nombre de usuario de Docker Hub como secreto
           password: ${{ secrets.DOCKER_PASSWORD }}  # Usa tu contraseña de Docker Hub como secreto
+
       - name: Verificar contenido del build
-        run: ls -R dist
+        run: ls -R dist  # Comprueba que se generó correctamente la carpeta 'dist'
+
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-react-app:latest .  # Construye la imagen Docker
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/my-react-app:latest .
+          docker tag ${{ secrets.DOCKER_USERNAME }}/my-react-app:latest ${{ secrets.DOCKER_USERNAME }}/my-react-app:${{ github.sha }}
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-react-app:latest  # Sube la imagen a Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/my-react-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/my-react-app:${{ github.sha }}
