@@ -36,6 +36,10 @@ jobs:
       - name: Verificar contenido del build
         run: ls -R dist  # Comprueba que se generó correctamente la carpeta 'dist'
 
+      - name: Extract short SHA
+        id: vars
+        run: echo "SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
       - name: Build Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/my-react-app:latest .
