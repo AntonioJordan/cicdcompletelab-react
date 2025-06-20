@@ -32,7 +32,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}  # Usa tu nombre de usuario de Docker Hub como secreto
           password: ${{ secrets.DOCKER_PASSWORD }}  # Usa tu contraseña de Docker Hub como secreto
-
+      - name: Verificar contenido del build
+        run: ls -R dist
       - name: Build Docker image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-react-app:latest .  # Construye la imagen Docker
 
