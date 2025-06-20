@@ -16,13 +16,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Configura la versión de Node.js
+          node-version: '18'  # Configura la versión de Node.js
 
       - name: Install dependencies
         run: npm install  # Instala las dependencias del proyecto React
 
       - name: Build React app
-        run: npm run build  # Ejecuta el build de app React
+        run: npm run build --loglevel verbose
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2  # Configura Docker Buildx para el build
